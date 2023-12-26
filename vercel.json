@@ -1,10 +1,4 @@
 {
   "version": 2,
-  "routes": [
-    {
-      "src": "/graphql",
-      "methods": ["GET"],
-      "dest": "/"
-    }
-  ]
+  "routes": []
 }
