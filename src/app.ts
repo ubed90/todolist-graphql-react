@@ -8,16 +8,10 @@ import UserResolver from './graphql/User';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import { createContext } from "./context";
 import TodoResolver from "./graphql/Todo";
-import cors, { CorsOptions } from 'cors';
 // @ts-ignore
 import XSS from 'xss-clean';
 import helmet from 'helmet';
 import path from "path";
-
-const corsOptions: CorsOptions = {
-  credentials: false,
-  origin: process.env.ORIGIN || "*",
-};
 
 const main = async () => {
     // ? Previous used for LOCAL
@@ -77,11 +71,16 @@ const main = async () => {
         if(process.env.NODE_ENV === 'development') {
           app.use(helmet());
         }
-        
-        app.use(cors(corsOptions))
+
         app.use(XSS());
 
         apolloServer.applyMiddleware({ app });
+
+        app.get('/graphql', (_, res) => {
+          return res.sendFile(
+            path.resolve(__dirname, '../', 'public', 'index.html')
+          );
+        })
         
         app.use('*', (_, res) => {
           return res.sendFile(
