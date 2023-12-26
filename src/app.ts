@@ -16,20 +16,32 @@ import path from "path";
 
 const corsOptions: CorsOptions = {
   credentials: false,
-  origin: 'http://localhost:5173',
+  origin: process.env.ORIGIN,
 };
 
 const main = async () => {
-    const sequelize = new Sequelize({
-      // * Sequelize instance is not getting initialized when left true.
-      // ! NEED TO LOOK
-      // repositoryMode: true,
-      database: process.env.DB_NAME,
-      dialect: 'postgres',
-      username: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      host: 'localhost',
-      port: Number(process.env.DB_PORT),
+    // ? Previous used for LOCAL
+    // const sequelize = new Sequelize({
+    //   // * Sequelize instance is not getting initialized when left true.
+    //   // ! NEED TO LOOK
+    //   // repositoryMode: true,
+    //   database: process.env.DB_NAME,
+    //   dialect: 'postgres',
+    //   username: process.env.DB_USER,
+    //   password: process.env.DB_PASS,
+    //   host: process.env.HOST,
+    //   port: Number(process.env.DB_PORT),
+    //   models: [`${__dirname}/models`],
+    //   modelMatch: (filename, member) => {
+    //     return (
+    //       filename.substring(0, filename.indexOf('.model')).toLowerCase() ===
+    //       member.toLowerCase()
+    //     );
+    //   },
+    // });
+
+    // * Current for PROD
+    const sequelize = new Sequelize(process.env.DB_URI, {
       models: [`${__dirname}/models`],
       modelMatch: (filename, member) => {
         return (
@@ -59,7 +71,7 @@ const main = async () => {
         app.set('trust proxy', 1);
 
         // * Setting FE as base URL
-        app.use(express.static(path.resolve(__dirname, '../', './public')));
+        app.use(express.static(path.resolve(__dirname, '../', 'public')));
 
         // * Setting Helmet and XSS-CLEAN
         if(process.env.NODE_ENV === 'development') {
