@@ -2,15 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "./dist/app.js",
+      "src": "*.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "./public/index.html"
-    },
     {
       "src": "/graphql",
       "methods": ["GET"],
