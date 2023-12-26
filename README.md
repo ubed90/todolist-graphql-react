@@ -1,0 +1,1 @@
+## A SIMPLE TODOLIST APP API BUILT USING Typed GraphQL, NodeJS and PostgreSQL
