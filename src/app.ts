@@ -16,7 +16,7 @@ import path from "path";
 
 const corsOptions: CorsOptions = {
   credentials: false,
-  origin: process.env.ORIGIN,
+  origin: process.env.ORIGIN || '*',
 };
 
 const main = async () => {
