@@ -16,7 +16,7 @@ import path from "path";
 
 const corsOptions: CorsOptions = {
   credentials: false,
-  origin: process.env.ORIGIN || '*',
+  origin: process.env.ORIGIN || "*",
 };
 
 const main = async () => {
@@ -81,13 +81,14 @@ const main = async () => {
         app.use(cors(corsOptions))
         app.use(XSS());
 
+        apolloServer.applyMiddleware({ app });
+        
         app.use('*', (_, res) => {
           return res.sendFile(
             path.resolve(__dirname, '../', 'public', 'index.html')
           );
         });
 
-        apolloServer.applyMiddleware({ app });
 
         app.listen(process.env.PORT, () => {
           console.log(
