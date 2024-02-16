@@ -52,8 +52,13 @@ class TodoResolver {
 
     if (!todo) throw new UserInputError(`No todo found with ID: ${id}`);
 
-    todo.text = data.text || todo.text;
-    todo.isCompleted = data.isCompleted !== null ? data.isCompleted : todo.isCompleted;
+    if(data.text) {
+      todo.text = data.text;
+    }
+
+    if(data.isCompleted) {
+      todo.isCompleted = data.isCompleted;
+    }
 
     await todo.save({ validate: true });
 
